@@ -1,0 +1,40 @@
+--- 
+# This playbook installs elCID
+- name: update apt-cache
+  apt: update_cache=yes
+
+- name: install Postgres and psycopg2
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - nginx
+    - postgresql
+    - libpq-dev # Required for Ansible to interact with postgres
+    - python-psycopg2 # Required for Ansible to interact with postgres
+
+- name: add default database user
+  sudo_user: postgres
+  postgresql_user: name={{ db_user }} password={{ db_password }} role_attr_flags=CREATEDB
+
+- name: create default database
+  sudo_user: postgres
+  postgresql_db: name={{ db_name }} encoding='UTF-8' owner={{ db_user }}
+
+- name: Allow password authentication for local socket users
+  sudo: yes
+  copy: src=pg_hba.conf dest=/etc/postgresql/9.1/main/pg_hba.conf force=yes
+  notify:
+      - Restart Postgres
+
+- name: Install Sauce Codes (elcid, opal)
+  git: repo=git@github.com:openhealthcare/elcid
+       dest=/usr/lib/ohc/elcid update=yes
+
+- name:  Create elCID Virtualenv
+  command: virtualenv  /usr/lib/ohc/virtualenvs/elcid
+
+- name: Install elCID deps
+  command: /usr/lib/ohc/virtualenvs/elcid/bin/pip install -r /usr/lib/ohc/elcid/requirements.txt
+
+  
+#Configure gunicorn to know about elcid
+# Configure nginx to know about gunicorn

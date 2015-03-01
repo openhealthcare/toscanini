@@ -1,0 +1,7 @@
+[elcid]
+hoo.com
+
+[elcid:vars]
+db_user=elcid
+db_password=kerfuffle99
+db_name=elcid

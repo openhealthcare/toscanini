@@ -1,0 +1,12 @@
+--- 
+# This playbook deploys an instance of elCID + CEDAR
+#
+- name: install elCID, Glossolalia, CEDAR
+  sudo: yes
+  user: ubuntu
+  hosts: elcid
+  roles:
+    - ohcserver
+    - elcid
+    - glossolalia
+    - cedar

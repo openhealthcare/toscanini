@@ -1,0 +1,75 @@
+---
+# 
+# This playbook performs the base setup for OHC Servers.
+#
+
+- name: Set locale
+  sudo: yes
+  command: /usr/sbin/update-locale LANG=en_GB.UTF-8 LC_ALL=en_GB.UTF-8
+
+- name: Update Apt
+  sudo: yes
+  command: apt-get update
+
+- name: Add nice repository adding
+  sudo: yes
+  apt: pkg=python-software-properties
+
+- name: Add NPM PPA
+  sudo: yes
+  command: add-apt-repository ppa:chris-lea/node.js -y
+
+- name: Update Apt
+  sudo: yes
+  command: apt-get update
+
+- name: Install packages
+  sudo: yes
+  apt: pkg={{ item }} state=installed update_cache=yes force=yes
+  with_items:
+
+      # Python Dev
+      - python-dev
+      - python-setuptools
+      - python-virtualenv
+
+      # Just nice
+      - screen
+      - vim
+      - emacs
+      - htop
+      - ack-grep
+      - virtualenvwrapper
+      - curl
+
+- name: Setup Working Directories
+  sudo: yes
+  file: path=/usr/lib/ohc state=directory mode=777
+
+- name: Setup virtualenvs dir
+  sudo: yes
+  file: path=/usr/lib/ohc/virtualenvs state=directory mode=777
+
+- name: SSH | Find Git repo SSH host key
+  shell: ssh-keyscan github.com
+  register: git_repo_host_key
+
+- name: SSH | Add Git repo host key to known_hosts file
+  lineinfile: create=yes dest=/home/vagrant/.ssh/known_hosts line='{{ git_repo_host_key.stdout }}' state=present
+
+# Elixir
+
+- name: Erlang Solutionise
+  sudo: yes
+  command: wget http://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb chdir=/tmp
+
+- name: Install deb  
+  sudo: yes
+  command: dpkg -i erlang-solutions_1.0_all.deb chdir=/tmp
+  
+- name: Install Elixir
+  sudo: yes
+  apt: pkg={{ item }} state=installed update_cache=yes force=yes
+  with_items:
+    - erlang
+    - elixir
