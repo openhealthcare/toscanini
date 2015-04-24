@@ -21,12 +21,12 @@
 
 - name: Allow password authentication for local socket users
   sudo: yes
-  copy: src=pg_hba.conf dest=/etc/postgresql/9.1/main/pg_hba.conf force=yes
+  copy: src=config/pg_hba.conf dest=/etc/postgresql/9.3/main/pg_hba.conf force=yes
   notify:
       - Restart Postgres
 
-- name: Install Sauce Codes (elcid, opal)
-  git: repo=git@github.com:openhealthcare/elcid
+- name: Install Sauce Codes (elCID)
+  git: repo=https://github.com/openhealthcare/elcid
        dest=/usr/lib/ohc/elcid update=yes
 
 - name:  Create elCID Virtualenv

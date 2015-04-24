@@ -27,7 +27,7 @@
   sudo: yes
   apt: pkg={{ item }} state=installed update_cache=yes force=yes
   with_items:
-
+      - git
       # Python Dev
       - python-dev
       - python-setuptools
@@ -46,6 +46,10 @@
   sudo: yes
   file: path=/usr/lib/ohc state=directory mode=777
 
+- name: Setup release dir
+  sudo: yes
+  file: path=/usr/lib/ohc/releases state=directory mode=777
+
 - name: Setup virtualenvs dir
   sudo: yes
   file: path=/usr/lib/ohc/virtualenvs state=directory mode=777
@@ -59,17 +63,17 @@
 
 # Elixir
 
-- name: Erlang Solutionise
-  sudo: yes
-  command: wget http://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb chdir=/tmp
+# - name: Erlang Solutionise
+#   sudo: yes
+#   command: wget http://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb chdir=/tmp
 
-- name: Install deb  
-  sudo: yes
-  command: dpkg -i erlang-solutions_1.0_all.deb chdir=/tmp
+# - name: Install deb  
+#   sudo: yes
+#   command: dpkg -i erlang-solutions_1.0_all.deb chdir=/tmp
   
-- name: Install Elixir
-  sudo: yes
-  apt: pkg={{ item }} state=installed update_cache=yes force=yes
-  with_items:
-    - erlang
-    - elixir
+# - name: Install Elixir
+#   sudo: yes
+#   apt: pkg={{ item }} state=installed update_cache=yes force=yes
+#   with_items:
+#     - erlang
+#     - elixir

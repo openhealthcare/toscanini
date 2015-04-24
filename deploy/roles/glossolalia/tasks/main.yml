@@ -2,3 +2,10 @@
 #
 # This playbook deploys Glossolalia
 #
+- name: Setup Working Directories
+  sudo: yes
+  file: path=/usr/lib/ohc/glossolalia state=directory mode=777
+
+- name: Upload Release File
+  unarchive: src=../../glossolalia/rel/glossolalia/glossolalia-0.0.1.tar.gz
+             dest=/usr/lib/ohc/glossolalia
