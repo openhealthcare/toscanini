@@ -1,5 +1,5 @@
 [elcid]
-hoo.com
+ec2-52-16-175-249.eu-west-1.compute.amazonaws.com
 
 [elcid:vars]
 db_user=elcid

@@ -3,9 +3,9 @@
 # This playbook performs the base setup for OHC Servers.
 #
 
-- name: Set locale
-  sudo: yes
-  command: /usr/sbin/update-locale LANG=en_GB.UTF-8 LC_ALL=en_GB.UTF-8
+# - name: Set locale
+#   sudo: yes
+#   command: /usr/sbin/update-locale LANG=en_GB.UTF-8 LC_ALL=en_GB.UTF-8
 
 - name: Update Apt
   sudo: yes
