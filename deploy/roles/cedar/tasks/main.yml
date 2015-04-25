@@ -4,9 +4,13 @@
 # 
 - name: Setup Working Directories
   sudo: yes
-  file: path=/usr/lib/glossolalia state=directory mode=777
+  file: path=/usr/lib/ohc/releases state=directory mode=755
+
+- name: Setup Working Directories
+  sudo: yes
+  file: path=/usr/lib/ohc/releases/cedar state=directory mode=755
 
 - name: Upload Release File
   unarchive: src=../../cedar/rel/cedar/cedar-0.0.1.tar.gz
-             dest=/usr/lib/ohc/cedar
+             dest=/usr/lib/ohc/releases/cedar
 

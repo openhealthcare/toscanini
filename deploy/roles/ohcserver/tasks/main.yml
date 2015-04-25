@@ -27,7 +27,9 @@
   sudo: yes
   apt: pkg={{ item }} state=installed update_cache=yes force=yes
   with_items:
+      # Development tools
       - git
+      
       # Python Dev
       - python-dev
       - python-setuptools
@@ -41,6 +43,7 @@
       - ack-grep
       - virtualenvwrapper
       - curl
+      - tree
 
 - name: Setup Working Directories
   sudo: yes

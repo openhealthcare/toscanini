@@ -4,8 +4,25 @@
 #
 - name: Setup Working Directories
   sudo: yes
-  file: path=/usr/lib/ohc/glossolalia state=directory mode=777
+  file: path=/usr/lib/ohc/releases
+        state=directory
+        mode=755
+        owner=ubuntu
 
-- name: Upload Release File
+- name: Setup Working Directories
+  sudo: yes
+  file: path=/usr/lib/ohc/releases/glossolalia
+        state=directory
+        mode=755
+        owner=ubuntu
+
+- name: Upload Release
   unarchive: src=../../glossolalia/rel/glossolalia/glossolalia-0.0.1.tar.gz
-             dest=/usr/lib/ohc/glossolalia
+             dest=/usr/lib/ohc/releases/glossolalia
+
+- name: Upload upstart conf
+  sudo: yes
+  copy: src=glossolalia.conf
+        dest=/etc/init/glossolalia.conf
+        mode=644
+        owner=root
