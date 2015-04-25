@@ -1,0 +1,4 @@
+- name: Restart Cedar
+  sudo: yes
+  service: name=cedar
+           state=restarted

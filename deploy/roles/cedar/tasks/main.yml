@@ -1,16 +1,30 @@
 ---
-# 
-# This playbook deploys CEDAR
-# 
+#
+# This playbook deploys Cedar
+#
 - name: Setup Working Directories
   sudo: yes
-  file: path=/usr/lib/ohc/releases state=directory mode=755
+  file: path=/usr/lib/ohc/cedar
+        state=directory
+        mode=755
+        owner=ubuntu
 
-- name: Setup Working Directories
+- name: Download Release
+  get_url: url=https://github.com/openhealthcare/releases/blob/master/cedar/cedar-{{ cedar_version }}.tar.gz?raw=true
+           dest=/usr/lib/ohc/cedar/cedar-{{ cedar_version }}.tar.gz
+           mode=644
+
+- name: Unpack Release
+  unarchive: src=/usr/lib/ohc/cedar/cedar-{{ cedar_version }}.tar.gz
+             dest=/usr/lib/ohc/cedar/
+             copy=no
+
+- name: Upload upstart conf
   sudo: yes
-  file: path=/usr/lib/ohc/releases/cedar state=directory mode=755
-
-- name: Upload Release File
-  unarchive: src=../../cedar/rel/cedar/cedar-0.0.1.tar.gz
-             dest=/usr/lib/ohc/releases/cedar
+  copy: src=cedar.conf
+        dest=/etc/init/cedar.conf
+        mode=644
+        owner=root
+  notify:
+      - Restart Cedar
 

@@ -5,6 +5,9 @@
   sudo: yes
   user: ubuntu
   hosts: elcid
+  vars: 
+    cedar_version: 0.0.1
+    glossolalia_version: 0.0.1
   roles:
     - ohcserver
     - elcid

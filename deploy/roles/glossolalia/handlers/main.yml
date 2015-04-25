@@ -1,0 +1,4 @@
+- name: Restart Glossolalia
+  sudo: yes
+  service: name=glossolalia
+           state=restarted
